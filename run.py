@@ -13,16 +13,25 @@ GSPREAD_CLIENT = gspread.authorize(SCOPE_CREDS)
 SHEET = GSPREAD_CLIENT.open('love_sandwiches')
 
 def get_sales_data():
+    
+    while True:
 
-    print('Please enter sales data from the last market.')
-    print('data should be six number, separated by commas.')
-    print('Exemple: 10,20,30,40,50\n')
+        print('Please enter sales data from the last market.')
+        print('data should be six number, separated by commas.')
+        print('Exemple: 10,20,30,40,50\n')
+        
+        data_str = input('Enter your data here:')
+        
+        sales_data = data_str.split(',')
+        validate_data(sales_data)
+        
+        if validate_data(sales_data):
+            print("Data is valid!")
+            break
     
-    data_str = input('Enter your data here:')
-    
-    sales_data = data_str.split(',')
-    validate_data(sales_data)
-    
+    return sales_data
+
+
 def validate_data(values):
     """
     Inside the try, converts all string values into integers.
@@ -37,5 +46,8 @@ def validate_data(values):
             )
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.\n')
-        
-get_sales_data()
+        return False
+    
+    return True   
+ 
+data = get_sales_data()
